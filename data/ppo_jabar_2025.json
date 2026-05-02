@@ -1,0 +1,110 @@
+[
+    {
+        "region": "Bogor",
+        "poverty_rate": 6.26
+    },
+    {
+        "region": "Sukabumi",
+        "poverty_rate": 6.41
+    },
+    {
+        "region": "Cianjur",
+        "poverty_rate": 9.82
+    },
+    {
+        "region": "Bandung",
+        "poverty_rate": 6.04
+    },
+    {
+        "region": "Garut",
+        "poverty_rate": 9.39
+    },
+    {
+        "region": "Tasikmalaya",
+        "poverty_rate": 10.15
+    },
+    {
+        "region": "Ciamis",
+        "poverty_rate": 7.19
+    },
+    {
+        "region": "Kuningan",
+        "poverty_rate": 10.74
+    },
+    {
+        "region": "Cirebon",
+        "poverty_rate": 10.23
+    },
+    {
+        "region": "Majalengka",
+        "poverty_rate": 10.31
+    },
+    {
+        "region": "Sumedang",
+        "poverty_rate": 8.81
+    },
+    {
+        "region": "Indramayu",
+        "poverty_rate": 11.02
+    },
+    {
+        "region": "Subang",
+        "poverty_rate": 9.23
+    },
+    {
+        "region": "Purwakarta",
+        "poverty_rate": 7.87
+    },
+    {
+        "region": "Karawang",
+        "poverty_rate": 7.08
+    },
+    {
+        "region": "Bekasi",
+        "poverty_rate": 4.36
+    },
+    {
+        "region": "Bandung Barat",
+        "poverty_rate": 9.87
+    },
+    {
+        "region": "Pangandaran",
+        "poverty_rate": 8.03
+    },
+    {
+        "region": "Kota Bogor",
+        "poverty_rate": 5.89
+    },
+    {
+        "region": "Kota Sukabumi",
+        "poverty_rate": 6.9
+    },
+    {
+        "region": "Kota Bandung",
+        "poverty_rate": 3.78
+    },
+    {
+        "region": "Kota Cirebon",
+        "poverty_rate": 8.66
+    },
+    {
+        "region": "Kota Bekasi",
+        "poverty_rate": 3.96
+    },
+    {
+        "region": "Kota Depok",
+        "poverty_rate": 2.31
+    },
+    {
+        "region": "Kota Cimahi",
+        "poverty_rate": 4.2
+    },
+    {
+        "region": "Kota Tasikmalaya",
+        "poverty_rate": 10.84
+    },
+    {
+        "region": "Kota Banjar",
+        "poverty_rate": 5.73
+    }
+]
