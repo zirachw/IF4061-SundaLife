@@ -53,16 +53,17 @@
     font-family: 'Arial', sans-serif;
   }
 
-  /* ---- SECTION HEADER (red left border style) ---- */
-  .section-header {
-    background: #FFCFCC;
-    border-left: 6px solid #C0392B;
-    padding: 10px 16px;
+  /* ---- SECTION HEADER ---- */
+  .section-header,
+  .section-header-plain {
+    padding: 10px 0;
     margin-bottom: 14px;
     margin-top: 32px;
+    border-bottom: 2px solid #C0392B;
   }
 
-  .section-header h2 {
+  .section-header h2,
+  .section-header-plain h2 {
     font-size: 14px;
     font-weight: bold;
     color: #1A0505;
@@ -75,24 +76,7 @@
     color: #8B1A1A;
     font-family: 'Arial', sans-serif;
     margin-top: 2px;
-    text-transform: uppercase;
-    letter-spacing: 0.6px;
-  }
-
-  /* ---- SECTION HEADER variant 2 (plain text, bold, for G4) ---- */
-  .section-header-plain {
-    padding: 10px 0;
-    margin-bottom: 14px;
-    margin-top: 32px;
-    border-bottom: 2px solid #C0392B;
-  }
-
-  .section-header-plain h2 {
-    font-size: 14px;
-    font-weight: bold;
-    color: #1A0505;
-    font-family: 'Arial', sans-serif;
-    line-height: 1.3;
+    letter-spacing: 0.4px;
   }
 
   /* ---- CHART PLACEHOLDER ---- */
@@ -174,70 +158,60 @@
 
 <div class="poster">
 
-  <!-- META -->
-  <div class="meta">IF4061 Visualisasi Data &nbsp;|&nbsp; Kelompok 01 &nbsp;|&nbsp; Institut Teknologi Bandung &nbsp;|&nbsp; 2025/2026</div>
-
   <!-- TITLE -->
   <div class="main-title">Ketika Bekerja Belum Cukup di Jawa Barat</div>
-  <div class="main-subtitle">Paradoks Kemiskinan dan Pengangguran di 27 Kabupaten/Kota, 2021-2025</div>
+  <div class="main-subtitle">Paradoks Kemiskinan dan Pengangguran di 27 Kabupaten/Kota</div>
 
   <!-- GRAFIK 1 -->
   <div class="section-header">
     <h2>Lima Tahun Pemulihan: Semua Turun, Tapi Belum Merata</h2>
-    <div class="chart-type">Grafik garis &nbsp;|&nbsp; Tren persentase penduduk miskin, 6 provinsi Pulau Jawa</div>
+    <div class="chart-type">6 provinsi Pulau Jawa, 2021-2025</div>
   </div>
-  <img src="output/g1_tren.png" style="width:100%; display:block; margin-bottom:10px;">
-  <div class="insight">
-    Seluruh provinsi Pulau Jawa mencatat penurunan kemiskinan dari 2021 ke 2025, namun
-    Jawa Tengah dan Jawa Timur mengalami kenaikan tipis di 2025. Jawa Barat berada di
-    posisi menengah (6,65-7,52%), lebih rendah dari DI Yogyakarta dan Jawa Tengah, tetapi
-    masih di atas DKI Jakarta dan Banten. Tren positif ini menunjukkan ruang perbaikan
-    yang masih terbuka untuk mengejar provinsi-provinsi yang lebih maju.
-  </div>
+  <img src="output/g1_tren.png" style="width:100%; display:block; margin-bottom:4px;">
 
   <!-- GRAFIK 2 -->
   <div class="section-header">
     <h2>Kemiskinan Terkonsentrasi di Selatan dan Timur Jawa Barat</h2>
-    <div class="chart-type">Peta koropleth &nbsp;|&nbsp; Persentase penduduk miskin per kabupaten/kota, 2025</div>
+    <div class="chart-type">27 kabupaten/kota Jawa Barat, 2025</div>
   </div>
-  <div class="row-two">
-    <div class="col-left">
-      <img src="output/g2_peta.png" style="width:100%; display:block; margin-bottom:10px;">
-    </div>
-    <div class="col-right">
-      <div class="insight" style="border-left: none; padding-left: 0; margin-top: 0;">
-        Empat kabupaten melampaui 10%, yaitu Indramayu (11,02%), Cirebon (10,23%),
-        Majalengka (10,31%), dan Tasikmalaya (10,15%).
-        <br><br>
-        Tiga kota koridor utara di bawah 4%, yaitu Kota Depok (2,31%),
-        Kota Bandung (3,78%), dan Kota Bekasi (3,96%).
-        <br><br>
-        Pola geografis ini mencerminkan pemisahan antara ekonomi
-        pertanian subsisten di selatan-timur dan ekonomi formal
-        industri di utara.
-      </div>
-    </div>
+  <img src="output/g2_peta.png" style="width:100%; display:block; margin-bottom:10px;">
+  <div class="insight">
+    Empat kabupaten melampaui 10%, yaitu Indramayu (11,02%), Cirebon (10,23%),
+    Majalengka (10,31%), dan Tasikmalaya (10,15%).
+    Tiga kota koridor utara di bawah 4%, yaitu Kota Depok (2,31%),
+    Kota Bandung (3,78%), dan Kota Bekasi (3,96%).
+    Pola geografis ini mencerminkan pemisahan antara ekonomi
+    pertanian subsisten di selatan-timur dan ekonomi formal industri di utara.
   </div>
 
   <!-- GRAFIK 3 -->
   <div class="section-header">
     <h2>Korelasi Tingkat Kemiskinan terhadap Tingkat Pengangguran</h2>
-    <div class="chart-type">Grafik pencar &nbsp;|&nbsp; TPT vs kemiskinan, 27 kabupaten/kota, 2025</div>
+    <div class="chart-type">27 kabupaten/kota Jawa Barat, 2025</div>
   </div>
-  <img src="output/g3_scatter.png" style="width:100%; display:block; margin-bottom:10px;">
-  <div class="insight">
-    Korelasi antara pengangguran dan kemiskinan di Jawa Barat bersifat negatif dan lemah
-    (r = -0,37) sehingga semakin rendah pengangguran, justru semakin tinggi kemiskinan di sejumlah
-    wilayah. Pangandaran (TPT 1,91%, kemiskinan 8,03%), Tasikmalaya (3,69%, 10,15%),
-    dan Ciamis (4,08%, 7,19%) membentuk anomali paling ekstrem dari kelompok Kabupaten.
-    Di sisi lain, Kota Depok, Kota Cimahi, dan Bekasi mencatat TPT tinggi dengan
-    kemiskinan terendah se-provinsi.
+  <div class="row-two">
+    <div class="col-left">
+      <img src="output/g3_scatter.png" style="width:100%; display:block;">
+    </div>
+    <div class="col-right">
+      <div class="insight" style="border-left: none; padding-left: 0; margin-top: 0;">
+        Korelasi antara pengangguran dan kemiskinan di Jawa Barat bersifat negatif dan lemah
+        (r = -0,37) sehingga semakin rendah pengangguran, justru semakin tinggi kemiskinan di
+        sejumlah wilayah.
+        <br><br>
+        Pangandaran (TPT 1,91%, kemiskinan 8,03%), Tasikmalaya (3,69%, 10,15%),
+        dan Ciamis (4,08%, 7,19%) membentuk anomali paling ekstrem dari kelompok Kabupaten.
+        <br><br>
+        Di sisi lain, Kota Depok, Kota Cimahi, dan Bekasi mencatat TPT tinggi dengan
+        kemiskinan terendah se-provinsi.
+      </div>
+    </div>
   </div>
 
   <!-- GRAFIK 4 -->
   <div class="section-header-plain">
     <h2>Pengaruh Garis Kemiskinan terhadap Anomali Pengangguran-Kemiskinan</h2>
-    <div style="font-size:10px; color:#8B1A1A; font-family:Arial,sans-serif; margin-top:2px; letter-spacing:0.6px; text-transform:uppercase;">Slopegraph &nbsp;|&nbsp; Persentil TPT vs persentil garis kemiskinan, 6 wilayah anomali</div>
+    <div style="font-size:10px; color:#8B1A1A; font-family:Arial,sans-serif; margin-top:2px; letter-spacing:0.4px;">6 wilayah anomali, Jawa Barat, 2025</div>
   </div>
   <img src="output/g4_slopegraph.png" style="width:100%; display:block; margin-bottom:10px;">
   <div class="insight teal">
