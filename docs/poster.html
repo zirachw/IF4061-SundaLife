@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SundaLife - Draft Poster</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Georgia', 'Times New Roman', serif;
+    background: #e8e8e8;
+    padding: 32px 16px;
+  }
+
+  .poster {
+    width: 794px;
+    min-height: 1123px;
+    margin: 0 auto;
+    background: linear-gradient(180deg, #FFFFFF 0%, #FFE8E6 100%);
+    padding: 56px 60px 48px;
+    box-shadow: 0 6px 32px rgba(0,0,0,0.2);
+  }
+
+  /* ---- META ---- */
+  .meta {
+    font-family: 'Arial', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.8px;
+    color: #888;
+    text-align: center;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+  }
+
+  /* ---- MAIN TITLE ---- */
+  .main-title {
+    font-size: 29px;
+    font-weight: bold;
+    color: #8B1A1A;
+    text-align: center;
+    line-height: 1.2;
+    margin-bottom: 8px;
+    letter-spacing: -0.5px;
+  }
+
+  .main-subtitle {
+    font-size: 13px;
+    color: #666;
+    text-align: center;
+    font-style: italic;
+    margin-bottom: 40px;
+    font-family: 'Arial', sans-serif;
+  }
+
+  /* ---- SECTION HEADER (red left border style) ---- */
+  .section-header {
+    background: #FFCFCC;
+    border-left: 6px solid #C0392B;
+    padding: 10px 16px;
+    margin-bottom: 14px;
+    margin-top: 32px;
+  }
+
+  .section-header h2 {
+    font-size: 14px;
+    font-weight: bold;
+    color: #1A0505;
+    font-family: 'Arial', sans-serif;
+    line-height: 1.3;
+  }
+
+  .section-header .chart-type {
+    font-size: 10px;
+    color: #8B1A1A;
+    font-family: 'Arial', sans-serif;
+    margin-top: 2px;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+  }
+
+  /* ---- SECTION HEADER variant 2 (plain text, bold, for G4) ---- */
+  .section-header-plain {
+    padding: 10px 0;
+    margin-bottom: 14px;
+    margin-top: 32px;
+    border-bottom: 2px solid #C0392B;
+  }
+
+  .section-header-plain h2 {
+    font-size: 14px;
+    font-weight: bold;
+    color: #1A0505;
+    font-family: 'Arial', sans-serif;
+    line-height: 1.3;
+  }
+
+  /* ---- CHART PLACEHOLDER ---- */
+  .chart-box {
+    background: #687080;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255,255,255,0.5);
+    font-family: 'Arial', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.5px;
+    font-style: italic;
+    margin-bottom: 10px;
+  }
+
+  .chart-box.tall   { height: 220px; }
+  .chart-box.medium { height: 180px; }
+  .chart-box.short  { height: 150px; }
+  .chart-box.map    { height: 200px; width: 480px; }
+
+  /* ---- INSIGHT ---- */
+  .insight {
+    font-family: 'Arial', sans-serif;
+    font-size: 11px;
+    color: #3A1A1A;
+    line-height: 1.6;
+    border-left: 3px solid #C0392B;
+    padding-left: 12px;
+    margin-top: 8px;
+    margin-bottom: 4px;
+  }
+
+  .insight.teal {
+    border-left-color: #2A9D8F;
+  }
+
+  /* ---- TWO COLUMN ROW ---- */
+  .row-two {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    margin-bottom: 0;
+  }
+
+  .col-left  { flex: 0 0 480px; }
+  .col-right { flex: 1; }
+
+  /* ---- FOOTER ---- */
+  .footer {
+    margin-top: 36px;
+    border-top: 1px solid #D0A0A0;
+    padding-top: 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    font-family: 'Arial', sans-serif;
+    font-size: 9px;
+    color: #999;
+    line-height: 1.6;
+  }
+
+  .footer .team {
+    font-size: 9px;
+    color: #888;
+    line-height: 1.8;
+  }
+
+  .footer .source {
+    text-align: right;
+    font-size: 9px;
+    color: #AAA;
+    line-height: 1.6;
+  }
+</style>
+</head>
+<body>
+
+<div class="poster">
+
+  <!-- META -->
+  <div class="meta">IF4061 Visualisasi Data &nbsp;|&nbsp; Kelompok 01 &nbsp;|&nbsp; Institut Teknologi Bandung &nbsp;|&nbsp; 2025/2026</div>
+
+  <!-- TITLE -->
+  <div class="main-title">Ketika Bekerja Belum Cukup di Jawa Barat</div>
+  <div class="main-subtitle">Paradoks Kemiskinan dan Pengangguran di 27 Kabupaten/Kota, 2021-2025</div>
+
+  <!-- GRAFIK 1 -->
+  <div class="section-header">
+    <h2>Lima Tahun Pemulihan: Semua Turun, Tapi Belum Merata</h2>
+    <div class="chart-type">Grafik garis &nbsp;|&nbsp; Tren persentase penduduk miskin, 6 provinsi Pulau Jawa</div>
+  </div>
+  <img src="output/g1_tren.png" style="width:100%; display:block; margin-bottom:10px;">
+  <div class="insight">
+    Seluruh provinsi Pulau Jawa mencatat penurunan kemiskinan dari 2021 ke 2025, namun
+    Jawa Tengah dan Jawa Timur mengalami kenaikan tipis di 2025. Jawa Barat berada di
+    posisi menengah (6,65-7,52%), lebih rendah dari DI Yogyakarta dan Jawa Tengah, tetapi
+    masih di atas DKI Jakarta dan Banten. Tren positif ini menunjukkan ruang perbaikan
+    yang masih terbuka untuk mengejar provinsi-provinsi yang lebih maju.
+  </div>
+
+  <!-- GRAFIK 2 -->
+  <div class="section-header">
+    <h2>Kemiskinan Terkonsentrasi di Selatan dan Timur Jawa Barat</h2>
+    <div class="chart-type">Peta koropleth &nbsp;|&nbsp; Persentase penduduk miskin per kabupaten/kota, 2025</div>
+  </div>
+  <div class="row-two">
+    <div class="col-left">
+      <img src="output/g2_peta.png" style="width:100%; display:block; margin-bottom:10px;">
+    </div>
+    <div class="col-right">
+      <div class="insight" style="border-left: none; padding-left: 0; margin-top: 0;">
+        Empat kabupaten melampaui 10%, yaitu Indramayu (11,02%), Cirebon (10,23%),
+        Majalengka (10,31%), dan Tasikmalaya (10,15%).
+        <br><br>
+        Tiga kota koridor utara di bawah 4%, yaitu Kota Depok (2,31%),
+        Kota Bandung (3,78%), dan Kota Bekasi (3,96%).
+        <br><br>
+        Pola geografis ini mencerminkan pemisahan antara ekonomi
+        pertanian subsisten di selatan-timur dan ekonomi formal
+        industri di utara.
+      </div>
+    </div>
+  </div>
+
+  <!-- GRAFIK 3 -->
+  <div class="section-header">
+    <h2>Korelasi Tingkat Kemiskinan terhadap Tingkat Pengangguran</h2>
+    <div class="chart-type">Grafik pencar &nbsp;|&nbsp; TPT vs kemiskinan, 27 kabupaten/kota, 2025</div>
+  </div>
+  <img src="output/g3_scatter.png" style="width:100%; display:block; margin-bottom:10px;">
+  <div class="insight">
+    Korelasi antara pengangguran dan kemiskinan di Jawa Barat bersifat negatif dan lemah
+    (r = -0,37) sehingga semakin rendah pengangguran, justru semakin tinggi kemiskinan di sejumlah
+    wilayah. Pangandaran (TPT 1,91%, kemiskinan 8,03%), Tasikmalaya (3,69%, 10,15%),
+    dan Ciamis (4,08%, 7,19%) membentuk anomali paling ekstrem dari kelompok Kabupaten.
+    Di sisi lain, Kota Depok, Kota Cimahi, dan Bekasi mencatat TPT tinggi dengan
+    kemiskinan terendah se-provinsi.
+  </div>
+
+  <!-- GRAFIK 4 -->
+  <div class="section-header-plain">
+    <h2>Pengaruh Garis Kemiskinan terhadap Anomali Pengangguran-Kemiskinan</h2>
+    <div style="font-size:10px; color:#8B1A1A; font-family:Arial,sans-serif; margin-top:2px; letter-spacing:0.6px; text-transform:uppercase;">Slopegraph &nbsp;|&nbsp; Persentil TPT vs persentil garis kemiskinan, 6 wilayah anomali</div>
+  </div>
+  <img src="output/g4_slopegraph.png" style="width:100%; display:block; margin-bottom:10px;">
+  <div class="insight teal">
+    Tiga kota urban (hijau) memiliki garis kemiskinan di persentil tertinggi, mengonfirmasi
+    bahwa tingginya standar biaya hidup diimbangi pendapatan formal yang jauh melampaui
+    ambang batas sehingga kemiskinan tetap rendah meski pengangguran tinggi.
+  </div>
+  <div class="insight" style="margin-top: 8px;">
+    Tiga kabupaten pertanian (merah) memiliki TPT di persentil terbawah dan garis kemiskinan
+    di kisaran bawah hingga menengah. Upah sektor pertanian di wilayah tersebut berada di
+    bawah bahkan standar subsisten yang relatif rendah sehingga bekerja penuh tidak cukup
+    untuk keluar dari kemiskinan.
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="team">
+      <strong>Kelompok 01, IF4061 Visualisasi Data</strong><br>
+      13523004 Razi Rachman Widyadhana &nbsp;|&nbsp; 13523006 William Andrian Dharma T<br>
+      13523086 Bob Kunanda &nbsp;|&nbsp; 13523103 Steven Owen Liauw &nbsp;|&nbsp; 13523109 Haegen Quinston
+    </div>
+    <div class="source">
+      Sumber: Badan Pusat Statistik (BPS RI), 2021-2025<br>
+      Batas wilayah: GADM 4.1 Level 2 Indonesia<br>
+      Dibangun dengan Python, pandas, geopandas, matplotlib
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>
