@@ -53,7 +53,7 @@ Semester Genap Tahun Akademik 2025/2026
 
 [2.5.4 Penentuan Wilayah Anomali](#2.5-data-transformation)
 
-[2.5.5 Penghitungan Persentil](#2.5-data-transformation)
+[2.5.5 Penghitungan Peringkat](#2.5-data-transformation)
 
 [2.6 Data Consolidation](#2.6-data-consolidation)
 
@@ -383,9 +383,9 @@ Grafik dengan dua sumbu-y (*dual y-axis*) tidak digunakan karena tidak termuat d
 | Grafik | Cakupan | Label |
 | :---- | :---- | :---- |
 | G1 - Tren Pulau Jawa | 6 provinsi, 5 tahun (2021-2025) | Nama provinsi langsung di ujung setiap garis |
-| G2 - Peta Jawa Barat | 27 kabupaten/kota | Nama wilayah dan nilai kemiskinan di sentroid untuk semua wilayah berdata |
+| G2 - Peta Jawa Barat | 27 kabupaten/kota | Nomor urut kemiskinan di sentroid setiap poligon; legenda kartu berisi peringkat, nama, dan nilai untuk seluruh 27 wilayah |
 | G3 - Korelasi | 27 kabupaten/kota | Nama hanya untuk 6 wilayah anomali |
-| G4 - Anomali | 6 wilayah anomali | Nama dan peringkat di sisi kiri dan kanan *slopegraph* |
+| G4 - Anomali | 6 wilayah anomali | Nama wilayah di sisi kiri *slopegraph*; legenda dua warna; garis median sebagai referensi |
 
 #### **4.1.3 *Design Metaphor***
 
@@ -420,8 +420,8 @@ Setiap grafik dilengkapi dengan anotasi yang membantu interpretasi tanpa mengula
 | :---- | :---- |
 | G1 - Tren Pulau Jawa | Nama provinsi langsung di ujung kanan setiap garis sehingga tidak diperlukan legenda terpisah. |
 | G2 - Peta Jawa Barat | Nama wilayah beserta nilai persentase kemiskinan di sentroid setiap poligon untuk wilayah yang memiliki data. |
-| G3 - Korelasi | Nilai korelasi Pearson (r = -0,37) di sudut kiri atas. Nama enam wilayah anomali diberi label langsung pada titik yang bersangkutan. |
-| G4 - Anomali | Nama wilayah dan peringkat TPT di sisi kiri, peringkat garis kemiskinan di sisi kanan. Garis median (#14) sebagai referensi horizontal. |
+| G3 - Korelasi | Nilai korelasi Pearson (r = -0,37) di sudut kanan atas. Nama enam wilayah anomali diberi label langsung pada titik yang bersangkutan. |
+| G4 - Anomali | Nama wilayah di sisi kiri *slopegraph*. Legenda dua warna di bawah grafik: teal untuk "Pengangguran Tinggi, Kemiskinan Rendah" dan merah untuk "Pengangguran Rendah, Kemiskinan Tinggi". Garis median sebagai referensi horizontal. |
 
 Blok **Wawasan** (*insight*) dalam format *blockquote* ditempatkan di bawah setiap grafik sebagai anotasi naratif yang merangkum temuan utama dalam bahasa yang dapat dipahami audiens non-teknis.
 
@@ -460,7 +460,7 @@ Nilai korelasi Pearson (r = -0,37) dihitung menggunakan `scipy.stats.pearsonr` d
 
 #### **b. Visual Inference**
 
-Sumbu-y pada Grafik 1 dan 3 tidak dipotong dari nilai bukan nol untuk mencegah distorsi persepsi besar perubahan. Grafik 4 menggunakan skala persentil 0-100 yang seragam pada sumbu-y sehingga kemiringan garis dapat dibandingkan secara langsung antar wilayah. Koropleth pada Grafik 2 menggunakan skala warna sekuensial yang tidak membalik arah persepsi (lebih merah = lebih tinggi = lebih perlu diperhatikan).
+Sumbu-y pada Grafik 1 dan 3 tidak dipotong dari nilai bukan nol untuk mencegah distorsi persepsi besar perubahan. Grafik 4 menggunakan skala peringkat 1-27 yang seragam pada sumbu-y sehingga kemiringan garis dapat dibandingkan secara langsung antar wilayah. Koropleth pada Grafik 2 menggunakan skala warna sekuensial yang tidak membalik arah persepsi (lebih merah = lebih tinggi = lebih perlu diperhatikan).
 
 #### **c. Formatting Accuracy**
 
@@ -478,7 +478,7 @@ Pertanyaan yang diajukan kepada responden:
 1. Apakah visualisasi secara keseluruhan mudah dipahami tanpa penjelasan verbal tambahan?
 2. Setelah melihat keempat grafik, apa pesan utama yang Anda tangkap?
 3. Apakah ada grafik yang menimbulkan kebingungan atau memerlukan penjelasan lebih lanjut?
-4. Apakah grafik keempat (*slopegraph* persentil) mudah dibaca tanpa panduan?
+4. Apakah grafik keempat (*slopegraph* peringkat) mudah dibaca tanpa panduan?
 5. Apakah ada informasi penting yang menurut Anda seharusnya ditampilkan tetapi tidak ada?
 
 **Tabel 5.3.1** Ringkasan Feedback *(placeholder)*
