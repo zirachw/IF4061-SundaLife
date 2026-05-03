@@ -59,7 +59,7 @@
     padding: 10px 0;
     margin-bottom: 14px;
     margin-top: 32px;
-    border-bottom: 2px solid #C0392B;
+    border-top: 2px solid #C0392B;
   }
 
   .section-header h2,
@@ -126,6 +126,91 @@
   .col-left  { flex: 0 0 480px; }
   .col-right { flex: 1; }
 
+  /* ---- HERO ROW (G1) ---- */
+  .hero-row {
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+    margin-bottom: 12px;
+  }
+  .hero-large .number {
+    font-size: 38px;
+    font-weight: bold;
+    color: #8B1A1A;
+    font-family: 'Arial', sans-serif;
+    line-height: 1;
+  }
+  .hero-large .label {
+    font-size: 10px;
+    color: #666;
+    font-family: 'Arial', sans-serif;
+    line-height: 1.5;
+    margin-top: 5px;
+    max-width: 130px;
+  }
+  .hero-smalls {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-top: 6px;
+  }
+  .hero-small .number {
+    font-size: 17px;
+    font-weight: bold;
+    color: #C0392B;
+    font-family: 'Arial', sans-serif;
+  }
+  .hero-small .label {
+    font-size: 10px;
+    color: #777;
+    font-family: 'Arial', sans-serif;
+  }
+
+  /* ---- INTRO ROW (G2) ---- */
+  .intro-row {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  .intro-pill {
+    flex: 0 0 auto;
+    background: #F5E6E6;
+    border: 1px solid #D0A0A0;
+    border-radius: 4px;
+    padding: 6px 14px;
+    text-align: center;
+  }
+  .intro-pill .number {
+    font-size: 15px;
+    font-weight: bold;
+    color: #8B1A1A;
+    font-family: 'Arial', sans-serif;
+  }
+  .intro-pill .label {
+    font-size: 9px;
+    color: #888;
+    font-family: 'Arial', sans-serif;
+  }
+  .intro-sentence {
+    flex: 1;
+    font-size: 11px;
+    color: #3A1A1A;
+    font-family: 'Arial', sans-serif;
+    line-height: 1.55;
+  }
+
+  /* ---- MAIN POINT (G3, G4) ---- */
+  .main-point {
+    font-size: 11px;
+    color: #3A1A1A;
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    font-style: italic;
+    margin-bottom: 12px;
+  }
+
   /* ---- FOOTER ---- */
   .footer {
     margin-top: 36px;
@@ -159,7 +244,7 @@
 <div class="poster">
 
   <!-- TITLE -->
-  <div class="main-title">Ketika Bekerja Belum Cukup di Jawa Barat</div>
+  <div class="main-title">Ketika <span style="color:#C0392B">Bekerja</span> Belum Cukup di Jawa Barat</div>
   <div class="main-subtitle">Paradoks Kemiskinan dan Pengangguran di 27 Kabupaten/Kota</div>
 
   <!-- GRAFIK 1 -->
@@ -167,63 +252,82 @@
     <h2>Lima Tahun Pemulihan: Semua Turun, Tapi Belum Merata</h2>
     <div class="chart-type">6 provinsi Pulau Jawa, 2021-2025</div>
   </div>
-  <img src="output/g1_tren.png" style="width:100%; display:block; margin-bottom:4px;">
-
-  <!-- GRAFIK 2 -->
-  <div class="section-header">
-    <h2>Kemiskinan Terkonsentrasi di Selatan dan Timur Jawa Barat</h2>
-    <div class="chart-type">27 kabupaten/kota Jawa Barat, 2025</div>
-  </div>
-  <img src="output/g2_peta.png" style="width:100%; display:block; margin-bottom:10px;">
-  <div class="insight">
-    Empat kabupaten melampaui 10%, yaitu Indramayu (11,02%), Cirebon (10,23%),
-    Majalengka (10,31%), dan Tasikmalaya (10,15%).
-    Tiga kota koridor utara di bawah 4%, yaitu Kota Depok (2,31%),
-    Kota Bandung (3,78%), dan Kota Bekasi (3,96%).
-    Pola geografis ini mencerminkan pemisahan antara ekonomi
-    pertanian subsisten di selatan-timur dan ekonomi formal industri di utara.
-  </div>
-
-  <!-- GRAFIK 3 -->
-  <div class="section-header">
-    <h2>Korelasi Tingkat Kemiskinan terhadap Tingkat Pengangguran</h2>
-    <div class="chart-type">27 kabupaten/kota Jawa Barat, 2025</div>
-  </div>
-  <div class="row-two">
-    <div class="col-left">
-      <img src="output/g3_scatter.png" style="width:100%; display:block;">
+  <div class="row-two" style="align-items:center;">
+    <div style="flex:0 0 530px; min-width:0; display:flex; align-items:center; gap:4px;">
+      <div style="writing-mode:vertical-rl; transform:rotate(180deg); font-size:9px; color:#222; font-family:Arial,sans-serif; white-space:nowrap; flex-shrink:0; font-weight:bold;">Tingkat Kemiskinan (%)</div>
+      <div style="flex:1; min-width:0;"><img src="output/g1_tren.png" style="display:block; width:100%;"></div>
     </div>
-    <div class="col-right">
-      <div class="insight" style="border-left: none; padding-left: 0; margin-top: 0;">
-        Korelasi antara pengangguran dan kemiskinan di Jawa Barat bersifat negatif dan lemah
-        (r = -0,37) sehingga semakin rendah pengangguran, justru semakin tinggi kemiskinan di
-        sejumlah wilayah.
-        <br><br>
-        Pangandaran (TPT 1,91%, kemiskinan 8,03%), Tasikmalaya (3,69%, 10,15%),
-        dan Ciamis (4,08%, 7,19%) membentuk anomali paling ekstrem dari kelompok Kabupaten.
-        <br><br>
-        Di sisi lain, Kota Depok, Kota Cimahi, dan Bekasi mencatat TPT tinggi dengan
-        kemiskinan terendah se-provinsi.
+    <div style="flex:1; display:flex; flex-direction:column; gap:16px; padding-left:8px;">
+      <div class="hero-large">
+        <div class="number">6,65%</div>
+        <div class="label">kemiskinan dari populasi Jawa Barat 2025</div>
+      </div>
+      <div class="hero-small">
+        <div class="number">-0,87</div>
+        <div class="label">penurunan persentase poin Jawa Barat sejak 2021</div>
+      </div>
+      <div class="hero-small">
+        <div class="number">Ke-3</div>
+        <div class="label">terendah di antara 6 provinsi Pulau Jawa</div>
       </div>
     </div>
   </div>
 
-  <!-- GRAFIK 4 -->
-  <div class="section-header-plain">
-    <h2>Pengaruh Garis Kemiskinan terhadap Anomali Pengangguran-Kemiskinan</h2>
-    <div style="font-size:10px; color:#8B1A1A; font-family:Arial,sans-serif; margin-top:2px; letter-spacing:0.4px;">6 wilayah anomali, Jawa Barat, 2025</div>
+  <!-- GRAFIK 2 -->
+  <div class="section-header">
+    <h2>Kemiskinan Terkonsentrasi di Selatan dan Timur Jawa Barat</h2>
   </div>
-  <img src="output/g4_slopegraph.png" style="width:100%; display:block; margin-bottom:10px;">
-  <div class="insight teal">
-    Tiga kota urban (hijau) memiliki garis kemiskinan di persentil tertinggi, mengonfirmasi
-    bahwa tingginya standar biaya hidup diimbangi pendapatan formal yang jauh melampaui
-    ambang batas sehingga kemiskinan tetap rendah meski pengangguran tinggi.
+  <div class="intro-row">
+    <div class="intro-pill">
+      <div class="number">9</div>
+      <div class="label">Kota</div>
+    </div>
+    <div class="intro-pill">
+      <div class="number">18</div>
+      <div class="label">Kabupaten</div>
+    </div>
+    <div class="intro-sentence">
+      Indramayu mencatat kemiskinan tertinggi (11,02%) dan Kota Depok terendah (2,31%),
+      dengan pola serupa tampak pada wilayah sekitarnya sehingga selatan dan timur Jawa Barat
+      secara konsisten lebih tinggi daripada koridor utara yang berbasis industri dan jasa.
+    </div>
   </div>
-  <div class="insight" style="margin-top: 8px;">
-    Tiga kabupaten pertanian (merah) memiliki TPT di persentil terbawah dan garis kemiskinan
-    di kisaran bawah hingga menengah. Upah sektor pertanian di wilayah tersebut berada di
-    bawah bahkan standar subsisten yang relatif rendah sehingga bekerja penuh tidak cukup
-    untuk keluar dari kemiskinan.
+  <img src="output/g2_peta.png" style="width:100%; display:block; margin-bottom:4px;">
+
+  <!-- GRAFIK 3 + 4 SIDE BY SIDE -->
+  <div class="section-header">
+    <h2>Pengangguran Rendah Bukan Jaminan Sejahtera</h2>
+    <div class="chart-type">Korelasi TPT vs kemiskinan dan penjelasan anomali melalui garis kemiskinan, Jawa Barat 2025</div>
+  </div>
+
+  <div style="display:flex; gap:20px; align-items:flex-start;">
+
+    <div style="flex:1; min-width:0;">
+      <div style="display:flex; align-items:center; gap:4px;">
+        <div style="writing-mode:vertical-rl; transform:rotate(180deg); font-size:9px; color:#222; font-family:Arial,sans-serif; white-space:nowrap; flex-shrink:0; font-weight:bold;">Tingkat Kemiskinan (%)</div>
+        <div style="flex:1; min-width:0;">
+          <img src="output/g3_scatter.png" style="display:block; width:100%;">
+          <div style="text-align:center; font-size:9px; color:#222; font-family:Arial,sans-serif; margin-top:2px; font-weight:bold;">Tingkat Pengangguran (%)</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="flex:1; min-width:0;">
+      <div style="display:flex; align-items:center; gap:4px;">
+        <div style="writing-mode:vertical-rl; transform:rotate(180deg); font-size:9px; color:#222; font-family:Arial,sans-serif; white-space:nowrap; flex-shrink:0; font-weight:bold;">Tingkat Pengangguran</div>
+        <div style="flex:1; min-width:0;"><img src="output/g4_slopegraph.png" style="display:block; width:100%;"></div>
+        <div style="writing-mode:vertical-rl; font-size:9px; color:#222; font-family:Arial,sans-serif; white-space:nowrap; flex-shrink:0; font-weight:bold;">Garis Kemiskinan</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- INSIGHTS FULL WIDTH -->
+  <div class="insight teal" style="margin-top:20px;">
+    Bekasi dan Kota Cimahi mencatat pengangguran tertinggi di antara wilayah anomali, namun kemiskinan justru terendah. Karena berada di kawasan perkotaan yang lebih berkembang, peringkat garis kemiskinan mereka jauh lebih rendah daripada peringkat penganggurannya sehingga mereka yang bekerja di sektor formal masih mampu melampaui ambang subsisten tersebut.
+  </div>
+  <div class="insight" style="margin-top:10px;">
+    Pangandaran, Tasikmalaya, dan Ciamis mencatat pengangguran terendah di Jawa Barat sehingga hampir semua penduduk sudah bekerja. Namun upah sektor pertanian tidak mampu mencapai garis kemiskinan setempat sehingga bekerja penuh pun tidak cukup untuk keluar dari kemiskinan.
   </div>
 
   <!-- FOOTER -->
