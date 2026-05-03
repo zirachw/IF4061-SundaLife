@@ -74,7 +74,7 @@ cells.append(md(
 # ---------------------------------------------------------------------------
 cells.append(section("Inisialisasi", "2"))
 cells.append(md(
-    "`geopandas` digunakan untuk membaca batas wilayah dari file GeoJSON GADM 4.1 "
+    "`geopandas` digunakan untuk membaca batas wilayah dari file `Jabar_By_Kab.geojson` "
     "dan memplot peta koropleth. Seluruh impor diletakkan dalam satu sel."
 ))
 cells.append(code("# %pip install geopandas --quiet"))
@@ -116,6 +116,10 @@ cells.append(md(
     "diikuti kolom nama provinsi, Semester 1, dan Semester 2. Nilai Semester 2 dipakai "
     "sebagai acuan utama, dengan *fallback* ke Semester 1 apabila tidak tersedia."
 ))
+cells.append(md("**Gambar 2.2.1** Pratinjau Baris Pertama File `ppo_indonesia_2025.csv` Mentah."))
+cells.append(code(
+    "pd.read_csv(RAW_DIR + 'ppo_indonesia_2025.csv', nrows=7)"
+))
 cells.append(code(
     "YEARS = [2021, 2022, 2023, 2024, 2025]\n"
     "JAWA  = [\n"
@@ -136,15 +140,27 @@ cells.append(code(
     "ppo_jawa = processed[0]\n"
     "for df in processed[1:]:\n"
     "    ppo_jawa = ppo_jawa.merge(df, on='Provinsi', how='outer')\n\n"
-    "ppo_jawa.to_csv(CLEAN_DIR + 'ppo_jawa_2021-2025.csv', index=False, encoding='utf-8')\n"
-    "print(ppo_jawa.to_string(index=False))"
+    "ppo_jawa.to_csv(CLEAN_DIR + 'ppo_jawa_2021-2025.csv', index=False, encoding='utf-8')"
 ))
+cells.append(md("**Gambar 2.4.1** Dataset ppo Setelah Filter Enam Provinsi Pulau Jawa."))
+cells.append(code(
+    "df_g241 = pd.read_csv(RAW_DIR + 'ppo_indonesia_2025.csv', skiprows=4).iloc[:, [0,1,2]]\n"
+    "df_g241.columns = ['Provinsi', 'S1', 'S2']\n"
+    "df_g241['Provinsi'] = df_g241['Provinsi'].str.strip()\n"
+    "df_g241[df_g241['Provinsi'].isin(JAWA)]"
+))
+cells.append(md("**Gambar 2.5.1** Hasil Penggabungan Lima Tahun ke Format *Wide* (`ppo_jawa_2021-2025.csv`)."))
+cells.append(code("ppo_jawa"))
 
 cells.append(md(
     "## Data Kabupaten/Kota Jawa Barat\n\n"
     "Tiga file BPS untuk 2025 digabungkan menjadi satu tabel berisi persentase penduduk miskin, "
     "tingkat pengangguran terbuka, dan garis kemiskinan per kabupaten/kota. "
     "Baris agregat provinsi dibuang karena analisis berfokus pada level wilayah individual."
+))
+cells.append(md("**Gambar 2.2.2** Pratinjau File Indikator BPS Kabupaten/Kota Jawa Barat."))
+cells.append(code(
+    "pd.read_csv(RAW_DIR + 'Persentase_Penduduk_Miskin_Menurut_Kabupaten_Kota_di_Jawa_Barat_2025.csv', header=None)"
 ))
 cells.append(code(
     "def clean_bps(path, col):\n"
@@ -168,29 +184,32 @@ cells.append(code(
     "        'poverty_level',\n"
     "    ), on='region')\n"
     ")\n\n"
-    "jabar_raw.to_csv(CLEAN_DIR + 'jabar_2025_combined.csv', index=False, encoding='utf-8')\n"
-    "print(jabar_raw.to_string(index=False))"
+    "jabar_raw.to_csv(CLEAN_DIR + 'jabar_2025.csv', index=False, encoding='utf-8')"
 ))
+cells.append(md("**Gambar 2.4.2** Dataset jabar Setelah Penghapusan Baris Tidak Relevan (27 baris tersisa)."))
+cells.append(code("jabar_raw"))
+cells.append(md("**Gambar 2.4.4** Tipe Data Dataset jabar Setelah Konversi Numerik."))
+cells.append(code("jabar_raw.dtypes.to_frame('dtype')"))
+cells.append(md("**Gambar 2.5.2** Dataset jabar Hasil Penggabungan Tiga Indikator (27 baris, 4 kolom)."))
+cells.append(code("jabar_raw[['region', 'poverty_rate', 'unemployment_rate', 'poverty_level']]"))
 
 # ---------------------------------------------------------------------------
 # Section 4: Transformasi Data
 # ---------------------------------------------------------------------------
 cells.append(section("Transformasi Data", "4"))
 cells.append(md(
-    "Nama wilayah dinormalisasi dengan menghapus spasi agar sesuai dengan format `NAME_2` "
-    "pada GeoJSON GADM. Kolom `type` ditambahkan untuk membedakan Kota dan Kabupaten. "
-    "Tiga wilayah memerlukan pemetaan manual karena GADM tidak menyertakan prefiks *Kota* "
-    "pada namanya: Cimahi, Depok, dan Banjar."
+    "Nama wilayah diselaraskan agar cocok dengan atribut nama pada `Jabar_By_Kab.geojson`. "
+    "Kolom `type` ditambahkan untuk membedakan Kota dan Kabupaten. "
+    "Satu entri memerlukan pemetaan manual, yaitu *Bandung Barat* dalam BPS berpadanan "
+    "dengan nama berbeda dalam GeoJSON."
 ))
 cells.append(code(
     "ppo_jawa = pd.read_csv(CLEAN_DIR + 'ppo_jawa_2021-2025.csv')\n"
-    "jabar    = pd.read_csv(CLEAN_DIR + 'jabar_2025_combined.csv')\n\n"
+    "jabar    = pd.read_csv(CLEAN_DIR + 'jabar_2025.csv', dtype={'region': str})\n\n"
     "jabar = jabar.dropna(subset=['region'])\n"
     "jabar['type'] = np.where(\n"
     "    jabar['region'].str.startswith('Kota ', na=False), 'Kota', 'Kabupaten'\n"
     ")\n\n"
-    "GADM_FIX = {'Bandung Barat': 'BandungBarat'}\n"
-    "jabar['gadm_name'] = jabar['region'].map(GADM_FIX).fillna(jabar['region'])\n\n"
     "jabar['ratio'] = jabar['poverty_rate'] / jabar['unemployment_rate']\n"
     "ANOMALI_HIGH = (\n"
     "    jabar.nlargest(4, 'ratio')\n"
@@ -198,11 +217,18 @@ cells.append(code(
     "    ['region'].head(3).tolist()\n"
     ")\n"
     "ANOMALI_LOW  = jabar.nsmallest(3, 'ratio')['region'].tolist()\n"
-    "ANOMALI_ALL  = ANOMALI_HIGH + ANOMALI_LOW\n\n"
-    "print('Rasio tinggi:', ANOMALI_HIGH)\n"
-    "print('Rasio rendah:', ANOMALI_LOW)\n"
-    "print(jabar[['region', 'type', 'gadm_name', 'poverty_rate',\n"
-    "             'unemployment_rate', 'poverty_level', 'ratio']].to_string(index=False))"
+    "ANOMALI_ALL  = ANOMALI_HIGH + ANOMALI_LOW"
+))
+cells.append(md("**Gambar 2.4.3** Perbandingan Nilai `gadm_name` (GeoJSON) vs `region` (BPS) untuk Pemetaan Manual."))
+cells.append(code(
+    "gdf_preview = gpd.read_file(CLEAN_DIR + 'Jabar_By_Kab.geojson')\n"
+    "gdf_preview['region_title'] = gdf_preview['KABKOT'].str.title()\n"
+    "jabar_regions = set(jabar['region'])\n"
+    "gdf_preview[~gdf_preview['region_title'].isin(jabar_regions)][['KABKOT', 'region_title']]"
+))
+cells.append(md("**Gambar 2.5.3** Pratinjau Kolom Turunan `type`, `gadm_name`, dan `ratio` pada Dataset jabar."))
+cells.append(code(
+    "jabar[['region', 'type', 'poverty_rate', 'unemployment_rate', 'poverty_level', 'ratio']]"
 ))
 
 # ---------------------------------------------------------------------------
@@ -270,26 +296,29 @@ cells.append(md(
 cells.append(section("Grafik 2: Peta Sebaran Kemiskinan Jawa Barat 2025", "6"))
 cells.append(md(
     "Peta koropleth ini menampilkan tingkat kemiskinan di setiap kabupaten/kota Jawa Barat "
-    "pada 2025. Batas wilayah menggunakan data GADM 4.1 yang dibaca dengan `geopandas`. "
-    "Wilayah tanpa padanan data (Pangandaran tidak tercakup dalam GADM 4.1 dan Waduk Cirata "
-    "merupakan badan air) ditampilkan dalam abu-abu."
+    "pada 2025. Batas wilayah menggunakan GeoJSON komunitas Jawa Barat yang dibaca dengan `geopandas`. "
+    "Wilayah tanpa padanan data (Waduk Cirata merupakan badan air) ditampilkan dalam abu-abu."
+))
+cells.append(md("**Gambar 2.2.3** Pemeriksaan Nilai Unik Atribut Nama Wilayah pada `Jabar_By_Kab.geojson`."))
+cells.append(code(
+    "gdf_preview = gpd.read_file(CLEAN_DIR + 'Jabar_By_Kab.geojson')\n"
+    "gdf_preview[['PROVINSI', 'KABKOT']].head(10)"
 ))
 cells.append(code(
     "from matplotlib.colors import LinearSegmentedColormap\n\n"
-    "gdf = gpd.read_file(CLEAN_DIR + 'gadm41_IDN_2.json')\n"
-    "gdf_jabar = gdf[gdf['NAME_1'] == 'JawaBarat'].copy()\n\n"
+    "gdf_jabar = gpd.read_file(CLEAN_DIR + 'Jabar_By_Kab.geojson').copy()\n"
+    "gdf_jabar['region'] = gdf_jabar['KABKOT'].str.title()\n\n"
     "gdf_jabar = gdf_jabar.merge(\n"
-    "    jabar[['gadm_name', 'region', 'type', 'poverty_rate']],\n"
-    "    left_on='NAME_2', right_on='gadm_name',\n"
-    "    how='left',\n"
+    "    jabar[['region', 'type', 'poverty_rate']],\n"
+    "    on='region', how='left',\n"
     ")\n\n"
     "ranked = (\n"
-    "    jabar[['gadm_name', 'region', 'poverty_rate']]\n"
+    "    jabar[['region', 'poverty_rate']]\n"
     "    .sort_values('poverty_rate', ascending=False)\n"
     "    .reset_index(drop=True)\n"
     ")\n"
     "ranked['num'] = ranked.index + 1\n"
-    "gdf_jabar = gdf_jabar.merge(ranked[['gadm_name', 'num']], on='gadm_name', how='left')\n\n"
+    "gdf_jabar = gdf_jabar.merge(ranked[['region', 'num']], on='region', how='left')\n\n"
     "reds_light = LinearSegmentedColormap.from_list(\n"
     "    'Reds_light', plt.cm.Reds(np.linspace(0.05, 0.78, 256))\n"
     ")\n\n"
@@ -314,6 +343,7 @@ cells.append(code(
     "    19: ( 0.025, -0.02),\n"
     "    21: ( 0.15,   0.01),\n"
     "    12: ( 0.1,   -0.1 ),\n"
+    "     7: ( 0.0,    0.08),\n"
     "}\n\n"
     "for num, (x, y, _) in pos.items():\n"
     "    dx, dy = NUDGE.get(num, (0, 0))\n"
@@ -431,9 +461,14 @@ cells.append(md(
     "yang tinggi pula, dan sebaliknya. Kemiringan garis setiap wilayah langsung "
     "memperlihatkan apakah hipotesis itu terkonfirmasi atau tidak."
 ))
+cells.append(md("**Gambar 2.5.5** Peringkat TPT dan Garis Kemiskinan untuk Enam Wilayah Anomali."))
 cells.append(code(
     "jabar['tpt_rank'] = jabar['unemployment_rate'].rank(method='min').astype(int)\n"
     "jabar['gk_rank']  = jabar['poverty_level'].rank(method='min').astype(int)\n\n"
+    "anomali = jabar[jabar['region'].isin(ANOMALI_ALL)].copy()\n"
+    "anomali[['region', 'unemployment_rate', 'tpt_rank', 'poverty_level', 'gk_rank']]"
+))
+cells.append(code(
     "anomali = jabar[jabar['region'].isin(ANOMALI_ALL)].copy()\n\n"
     "C_HIGH = '#E63946'\n"
     "C_LOW  = '#2A9D8F'\n\n"
