@@ -284,13 +284,13 @@ Berdasarkan kolom *ratio*, enam wilayah dengan pola paling ekstrem dipilih sebag
 | Kota Cimahi | 8,75 | 4,20 | 642.016 | 0,48 | Rendah |
 | Bekasi | 8,78 | 4,36 | 698.154 | 0,50 | Rendah |
 
-#### **2.5.5 Penghitungan Persentil**
+#### **2.5.5 Penghitungan Peringkat**
 
-Kolom persentil dihitung dari *ranking* setiap wilayah di antara 27 kabupaten/kota Jawa Barat. Kolom *tpt_pct* dihitung dari *ranking* TPT dan kolom *gk_pct* dari *ranking* garis kemiskinan, keduanya dalam skala 0-100.
+Kolom peringkat dihitung dari urutan setiap wilayah di antara 27 kabupaten/kota Jawa Barat menggunakan `DataFrame.rank(method='min')`. Kolom *tpt_rank* menyatakan peringkat TPT (1 = TPT terendah) dan kolom *gk_rank* menyatakan peringkat garis kemiskinan (1 = garis kemiskinan terendah), keduanya dalam skala bilangan bulat 1-27.
 
 ![][image11]
 
-**Gambar 2.5.5** Persentil TPT dan Garis Kemiskinan untuk Enam Wilayah Anomali.
+**Gambar 2.5.5** Peringkat TPT dan Garis Kemiskinan untuk Enam Wilayah Anomali.
 
 ### **2.6 *Data Consolidation*** {#2.6-data-consolidation}
 
@@ -347,7 +347,7 @@ Narasi mengikuti struktur *linear* dari makro ke mikro. Grafik 1 menetapkan kont
 
 #### **3.6.2 Fokus Perhatian**
 
-Warna merah (#E63946) digunakan secara konsisten untuk Jawa Barat pada Grafik 1 dan untuk kelompok anomali dengan kemiskinan tinggi pada Grafik 4. Warna hijau (#2A9D8F) digunakan untuk kelompok anomali dengan kemiskinan rendah pada Grafik 4. Pada Grafik 1, lima provinsi konteks ditampilkan dalam abu-abu (#888888) agar Jawa Barat menonjol tanpa gangguan warna kompetitif. Pada Grafik 3, kelompok Kabupaten menggunakan terracotta (#D4875A) dan Kota menggunakan biru baja (#5B7FA6) sebagai warna kategori yang netral sehingga tidak menimbulkan kebingungan semantik dengan merah-hijau yang digunakan di Grafik 4. Label nama wilayah hanya ditampilkan untuk enam wilayah anomali sehingga perhatian pembaca terpusat pada kasus-kasus yang membentuk argumen.
+Warna merah (#E63946) digunakan secara konsisten untuk Jawa Barat pada Grafik 1 dan untuk kelompok anomali dengan kemiskinan tinggi pada Grafik 4. Warna hijau (#2A9D8F) digunakan untuk kelompok anomali dengan kemiskinan rendah pada Grafik 4. Pada Grafik 1, lima provinsi konteks ditampilkan dalam abu-abu (#888888) agar Jawa Barat menonjol tanpa gangguan warna kompetitif. Pada Grafik 3, kelompok Kabupaten menggunakan merah kategori (#C0392B) dan Kota menggunakan biru gelap (#1A6B8A) sebagai warna kategori yang berbeda dari merah-hijau Grafik 4 sehingga tidak menimbulkan kebingungan semantik. Label nama wilayah hanya ditampilkan untuk enam wilayah anomali sehingga perhatian pembaca terpusat pada kasus-kasus yang membentuk argumen.
 
 #### **3.6.3 *Highlight Insight* Utama**
 
@@ -372,7 +372,7 @@ Setiap grafik dipilih berdasarkan tujuan komunikasi primernya sesuai taksonomi K
 | G1: Tren Pulau Jawa | *Showing changes over time* | *Line chart* | 1 temporal, 6 seri provinsi | Perubahan temporal paling akurat dikodekan melalui posisi pada sumbu vertikal bersama. Enam seri dapat dibedakan dengan warna tanpa mengorbankan keterbacaan. |
 | G2: Peta Jawa Barat | *Mapping geo-spatial data* | Koropleth | 1 kuantitatif-rasio, 27 wilayah | Distribusi spasial memerlukan substrat geografis. Warna sekuensial (*Reds*) mengkodekan satu variabel kuantitatif sesuai hierarki akurasi MacKinlay. |
 | G3: Korelasi | *Plotting connections and relationships* | *Scatter plot* | 2 kuantitatif, 1 kategorikal (warna) | Dua variabel kuantitatif dipetakan pada dua sumbu posisi, variabel yang paling akurat menurut hierarki MacKinlay. Garis regresi per kelompok memperlihatkan arah korelasi. |
-| G4: Anomali | *Comparing categorical values* | *Slopegraph* | 1 kategorikal, 2 kuantitatif (persentil) | Dua metrik per wilayah pada sumbu vertikal bersama memungkinkan perbandingan langsung. Kirk (2012) secara eksplisit mendefinisikan *slopegraph* sebagai pilihan tepat untuk menampilkan perbandingan dua metrik per kategori. Kemiringan garis langsung memperlihatkan arah dan besar perbedaan. |
+| G4: Anomali | *Comparing categorical values* | *Slopegraph* | 1 kategorikal, 2 kuantitatif (peringkat) | Dua metrik per wilayah pada sumbu vertikal bersama memungkinkan perbandingan langsung. Kirk (2012) secara eksplisit mendefinisikan *slopegraph* sebagai pilihan tepat untuk menampilkan perbandingan dua metrik per kategori. Kemiringan garis langsung memperlihatkan arah dan besar perbedaan. |
 
 Grafik dengan dua sumbu-y (*dual y-axis*) tidak digunakan karena tidak termuat dalam taksonomi Kirk dan menurunkan akurasi komparasi yang seharusnya disediakan oleh posisi sebagai variabel visual primer.
 
@@ -385,7 +385,7 @@ Grafik dengan dua sumbu-y (*dual y-axis*) tidak digunakan karena tidak termuat d
 | G1 - Tren Pulau Jawa | 6 provinsi, 5 tahun (2021-2025) | Nama provinsi langsung di ujung setiap garis |
 | G2 - Peta Jawa Barat | 27 kabupaten/kota | Nama wilayah dan nilai kemiskinan di sentroid untuk semua wilayah berdata |
 | G3 - Korelasi | 27 kabupaten/kota | Nama hanya untuk 6 wilayah anomali |
-| G4 - Anomali | 6 wilayah anomali | Nama dan persentil di sisi kiri dan kanan *slopegraph* |
+| G4 - Anomali | 6 wilayah anomali | Nama dan peringkat di sisi kiri dan kanan *slopegraph* |
 
 #### **4.1.3 *Design Metaphor***
 
@@ -403,8 +403,8 @@ Pemilihan warna mengikuti dua prinsip, yaitu keterbacaan untuk audiens umum dan 
 | :---- | :---- | :---- |
 | Merah | #E63946 | Jawa Barat (G1), anomali kemiskinan tinggi (G4) |
 | Hijau-teal | #2A9D8F | Anomali kemiskinan rendah (G4) |
-| Terracotta | #D4875A | Kelompok Kabupaten (G3) |
-| Biru baja | #5B7FA6 | Kelompok Kota (G3) |
+| Biru gelap | #1A6B8A | Kelompok Kota (G3) |
+| Merah kategori | #C0392B | Kelompok Kabupaten (G3) |
 | Abu-abu | #888888 | Lima provinsi konteks Pulau Jawa (G1) |
 | Merah sekuensial | *Reds* (ColorBrewer) | Intensitas kemiskinan pada koropleth (G2) |
 
@@ -421,13 +421,13 @@ Setiap grafik dilengkapi dengan anotasi yang membantu interpretasi tanpa mengula
 | G1 - Tren Pulau Jawa | Nama provinsi langsung di ujung kanan setiap garis sehingga tidak diperlukan legenda terpisah. |
 | G2 - Peta Jawa Barat | Nama wilayah beserta nilai persentase kemiskinan di sentroid setiap poligon untuk wilayah yang memiliki data. |
 | G3 - Korelasi | Nilai korelasi Pearson (r = -0,37) di sudut kiri atas. Nama enam wilayah anomali diberi label langsung pada titik yang bersangkutan. |
-| G4 - Anomali | Nama wilayah dan persentil TPT di sisi kiri, persentil garis kemiskinan di sisi kanan. Garis median (50th) sebagai referensi horizontal. |
+| G4 - Anomali | Nama wilayah dan peringkat TPT di sisi kiri, peringkat garis kemiskinan di sisi kanan. Garis median (#14) sebagai referensi horizontal. |
 
 Blok **Wawasan** (*insight*) dalam format *blockquote* ditempatkan di bawah setiap grafik sebagai anotasi naratif yang merangkum temuan utama dalam bahasa yang dapat dipahami audiens non-teknis.
 
 #### **4.2.3 *Layout***
 
-Visualisasi disajikan dalam format *notebook* Jupyter yang bersifat linear top-down, sesuai urutan narasi yang telah ditetapkan. Setiap panel grafik berdiri sendiri dengan judul, sumbu berlabel, dan blok wawasan, sehingga dapat dipahami secara independen sekalipun tanpa membaca panel sebelumnya. Untuk format poster, keempat panel disusun dalam *grid* 2x2 dengan *header* editorial dan *footer* sumber data.
+Visualisasi disajikan dalam format *notebook* Jupyter yang bersifat linear top-down, sesuai urutan narasi yang telah ditetapkan. Setiap panel grafik berdiri sendiri dengan judul, sumbu berlabel, dan blok wawasan, sehingga dapat dipahami secara independen sekalipun tanpa membaca panel sebelumnya. Untuk format poster, tiga panel pertama (G1, G2, G3+G4) disusun secara vertikal. Grafik 3 dan Grafik 4 digabungkan dalam satu baris berdampingan di bawah satu *section header* bersama, diikuti blok *insight* penuh yang merangkum temuan kedua grafik secara terintegrasi. *Footer* memuat sumber data dan nama anggota kelompok.
 
 ---
 
@@ -456,7 +456,7 @@ Evaluasi dilakukan berdasarkan kerangka "Things to do Before Launching" dari mat
 
 #### **a. Data & Statistical Accuracy**
 
-Nilai korelasi Pearson (r = -0,37) dihitung menggunakan `scipy.stats.pearsonr` dari seluruh 27 wilayah. Garis regresi pada Grafik 3 dihitung secara terpisah untuk kelompok Kota dan Kabupaten menggunakan `scipy.stats.linregress`. Persentil pada Grafik 4 dihitung menggunakan `DataFrame.rank(pct=True)` dari pandas, yang menghasilkan nilai dalam rentang 0-1 sebelum dikalikan 100. Tidak ada data *outlier* yang dibuang karena keenam wilayah anomali merupakan observasi valid yang justru menjadi subjek analisis.
+Nilai korelasi Pearson (r = -0,37) dihitung menggunakan `scipy.stats.pearsonr` dari seluruh 27 wilayah. Garis regresi pada Grafik 3 dihitung secara terpisah untuk kelompok Kota dan Kabupaten menggunakan `scipy.stats.linregress`. Peringkat pada Grafik 4 dihitung menggunakan `DataFrame.rank(method='min')` dari pandas, yang menghasilkan bilangan bulat 1-27 secara langsung. Tidak ada data *outlier* yang dibuang karena keenam wilayah anomali merupakan observasi valid yang justru menjadi subjek analisis.
 
 #### **b. Visual Inference**
 
@@ -464,7 +464,7 @@ Sumbu-y pada Grafik 1 dan 3 tidak dipotong dari nilai bukan nol untuk mencegah d
 
 #### **c. Formatting Accuracy**
 
-Ukuran *font* konsisten di seluruh grafik (judul 13-14pt, label sumbu 11pt, anotasi 8-9pt). Warna merah #E63946 digunakan secara konsisten sebagai aksen utama di seluruh grafik. *Spines* atas dan kanan dihilangkan pada semua grafik untuk mengurangi *chartjunk*. Gridlines menggunakan gaya *dashed* dengan transparansi 30-40%.
+Ukuran *font* konsisten di seluruh grafik (judul 13-14pt, label sumbu 11pt, anotasi 8-9pt). Warna merah #E63946 digunakan secara konsisten sebagai aksen utama di seluruh grafik. *Spines* dihilangkan pada semua grafik untuk mengurangi *chartjunk*. Gridlines menggunakan gaya *dotted* (`:`) dengan transparansi 20-30%.
 
 #### **d. Annotation Accuracy**
 
