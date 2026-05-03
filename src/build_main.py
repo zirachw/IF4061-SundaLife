@@ -87,10 +87,20 @@ cells.append(code(
     "import matplotlib.ticker as ticker\n"
     "from scipy import stats\n\n"
     "%matplotlib inline\n\n"
-    "DATA_DIR   = '../data/'\n"
-    "RAW_DIR    = DATA_DIR + 'raw/'\n"
-    "CLEAN_DIR  = DATA_DIR + 'clean/'\n"
-    "OUTPUT_DIR = '../docs/output/'\n"
+    "KAGGLE_DATA_DIR = '/kaggle/input/datasets/stevenowen/data-vizdat/data/'\n"
+    "if os.path.exists(KAGGLE_DATA_DIR):\n"
+    "    DATA_DIR = KAGGLE_DATA_DIR\n"
+    "    RAW_DIR = DATA_DIR + 'raw/'\n"
+    "    CLEAN_DIR = '/kaggle/working/data/clean/'\n"
+    "    OUTPUT_DIR = '/kaggle/working/output/'\n"
+    "    GADM_PATH = DATA_DIR + 'clean/gadm41_IDN_2.json'\n"
+    "else:\n"
+    "    DATA_DIR = '../data/'\n"
+    "    RAW_DIR = DATA_DIR + 'raw/'\n"
+    "    CLEAN_DIR = DATA_DIR + 'clean/'\n"
+    "    OUTPUT_DIR = '../docs/output/'\n"
+    "    GADM_PATH = CLEAN_DIR + 'gadm41_IDN_2.json'\n\n"
+    "os.makedirs(CLEAN_DIR, exist_ok=True)\n"
     "os.makedirs(OUTPUT_DIR, exist_ok=True)\n\n"
     "plt.rcParams.update({\n"
     "    'font.family': 'sans-serif',\n"
@@ -106,15 +116,14 @@ cells.append(code(
 cells.append(section("Persiapan Data", "3"))
 cells.append(md(
     "Tahap ini membaca data mentah dari BPS dan menghasilkan dua file bersih di `data/clean/`. "
-    "Seluruh logika pembersihan disertakan agar pipeline dapat direproduksi "
-    "tanpa bergantung pada file bersih yang sudah tersimpan sebelumnya."
+    "Seluruh proses dibuat bertahap agar setiap keluaran pada Bagian 2 dokumen dapat diambil "
+    "sebagai screenshot tanpa mengubah alur analisis utama."
 ))
 
 cells.append(md(
-    "## Tren Kemiskinan Pulau Jawa\n\n"
-    "Setiap file tahunan BPS menggunakan format yang seragam: empat baris header, "
-    "diikuti kolom nama provinsi, Semester 1, dan Semester 2. Nilai Semester 2 dipakai "
-    "sebagai acuan utama, dengan *fallback* ke Semester 1 apabila tidak tersedia."
+    "## Bagian 2.2.1 dan 2.4.1 - Dataset ppo Tahunan\n\n"
+    "Cell berikut menampilkan pratinjau file mentah `ppo_indonesia_2025.csv` untuk Gambar 2.2.1, "
+    "lalu contoh hasil filter enam provinsi Pulau Jawa dan seleksi nilai semester untuk Gambar 2.4.1."
 ))
 cells.append(code(
     "YEARS = [2021, 2022, 2023, 2024, 2025]\n"
@@ -122,8 +131,26 @@ cells.append(code(
     "    'JAWA BARAT', 'JAWA TENGAH', 'JAWA TIMUR',\n"
     "    'DKI JAKARTA', 'BANTEN', 'DI YOGYAKARTA',\n"
     "]\n\n"
-    "processed = []\n"
-    "for year in YEARS:\n"
+    "ppo_raw_2025 = pd.read_csv(RAW_DIR + 'ppo_indonesia_2025.csv', skiprows=4)\n"
+    "ppo_raw_2025.head()"
+))
+cells.append(code(
+    "ppo_example = ppo_raw_2025.iloc[:, [0, 1, 2]].copy()\n"
+    "ppo_example.columns = ['Provinsi', 'S1', 'S2']\n"
+    "ppo_example['Provinsi'] = ppo_example['Provinsi'].str.strip()\n"
+    "ppo_example = ppo_example[ppo_example['Provinsi'].isin(JAWA)].copy()\n"
+    "ppo_example['S1'] = pd.to_numeric(ppo_example['S1'], errors='coerce')\n"
+    "ppo_example['S2'] = pd.to_numeric(ppo_example['S2'], errors='coerce')\n"
+    "ppo_example['2025'] = ppo_example['S2'].fillna(ppo_example['S1'])\n"
+    "ppo_example"
+))
+cells.append(md(
+    "## Bagian 2.5.1 - Penggabungan Lima Tahun ke Format Wide\n\n"
+    "Setelah fungsi pemrosesan per tahun didefinisikan, semua file tahunan digabungkan menjadi "
+    "`ppo_jawa_2021-2025.csv`."
+))
+cells.append(code(
+    "def process_ppo_year(year):\n"
     "    df = pd.read_csv(RAW_DIR + f'ppo_indonesia_{year}.csv', skiprows=4)\n"
     "    df = df.iloc[:, [0, 1, 2]]\n"
     "    df.columns = ['Provinsi', 'S1', 'S2']\n"
@@ -132,19 +159,30 @@ cells.append(code(
     "    df['S1'] = pd.to_numeric(df['S1'], errors='coerce')\n"
     "    df['S2'] = pd.to_numeric(df['S2'], errors='coerce')\n"
     "    df[str(year)] = df['S2'].fillna(df['S1'])\n"
-    "    processed.append(df[['Provinsi', str(year)]])\n\n"
+    "    return df[['Provinsi', str(year)]]\n\n"
+    "processed = [process_ppo_year(year) for year in YEARS]\n"
     "ppo_jawa = processed[0]\n"
-    "for df in processed[1:]:\n"
-    "    ppo_jawa = ppo_jawa.merge(df, on='Provinsi', how='outer')\n\n"
+    "for df_year in processed[1:]:\n"
+    "    ppo_jawa = ppo_jawa.merge(df_year, on='Provinsi', how='outer')\n\n"
     "ppo_jawa.to_csv(CLEAN_DIR + 'ppo_jawa_2021-2025.csv', index=False, encoding='utf-8')\n"
-    "print(ppo_jawa.to_string(index=False))"
+    "ppo_jawa"
 ))
 
 cells.append(md(
-    "## Data Kabupaten/Kota Jawa Barat\n\n"
-    "Tiga file BPS untuk 2025 digabungkan menjadi satu tabel berisi persentase penduduk miskin, "
-    "tingkat pengangguran terbuka, dan garis kemiskinan per kabupaten/kota. "
-    "Baris agregat provinsi dibuang karena analisis berfokus pada level wilayah individual."
+    "## Bagian 2.2.2 - Dataset Kabupaten/Kota Jawa Barat Mentah\n\n"
+    "Pratinjau salah satu file indikator BPS kabupaten/kota ditampilkan sebelum pembersihan."
+))
+cells.append(code(
+    "POVERTY_PATH = RAW_DIR + 'Persentase_Penduduk_Miskin_Menurut_Kabupaten_Kota_di_Jawa_Barat_2025.csv'\n"
+    "UNEMPLOYMENT_PATH = RAW_DIR + 'Tingkat_Pengangguran_Terbuka_Menurut_Kabupaten_Kota_2025.csv'\n"
+    "POVERTY_LEVEL_PATH = RAW_DIR + 'Garis_Kemiskinan_Menurut_Kabupaten_Kota_2025.csv'\n\n"
+    "poverty_raw = pd.read_csv(POVERTY_PATH, header=None)\n"
+    "poverty_raw.head(10)"
+))
+cells.append(md(
+    "## Bagian 2.4.2 dan 2.4.4 - Cleaning dan Konversi Tipe Data\n\n"
+    "Tiga file indikator dibersihkan dengan fungsi yang sama. Output pertama menunjukkan hasil "
+    "pembersihan satu indikator, sedangkan output kedua menunjukkan tipe data setelah konversi numerik."
 ))
 cells.append(code(
     "def clean_bps(path, col):\n"
@@ -154,22 +192,33 @@ cells.append(code(
     "    df[col] = pd.to_numeric(df[col], errors='coerce')\n"
     "    df = df.dropna(subset=['region', col])\n"
     "    return df[~df['region'].str.contains('Provinsi', na=False)]\n\n"
+    "poverty_clean = clean_bps(POVERTY_PATH, 'poverty_rate')\n"
+    "unemployment_clean = clean_bps(UNEMPLOYMENT_PATH, 'unemployment_rate')\n"
+    "poverty_level_clean = clean_bps(POVERTY_LEVEL_PATH, 'poverty_level')\n\n"
+    "poverty_clean"
+))
+cells.append(code(
+    "pd.DataFrame({\n"
+    "    'dataset': ['poverty_clean', 'unemployment_clean', 'poverty_level_clean'],\n"
+    "    'rows': [len(poverty_clean), len(unemployment_clean), len(poverty_level_clean)],\n"
+    "    'value_dtype': [poverty_clean['poverty_rate'].dtype,\n"
+    "                    unemployment_clean['unemployment_rate'].dtype,\n"
+    "                    poverty_level_clean['poverty_level'].dtype],\n"
+    "})"
+))
+cells.append(md(
+    "## Bagian 2.5.2 - Penggabungan Tiga Indikator\n\n"
+    "Ketiga indikator digabungkan dengan `region` sebagai key dan disimpan sebagai "
+    "`jabar_2025_combined.csv`."
+))
+cells.append(code(
     "jabar_raw = (\n"
-    "    clean_bps(\n"
-    "        RAW_DIR + 'Persentase_Penduduk_Miskin_Menurut_Kabupaten_Kota_di_Jawa_Barat_2025.csv',\n"
-    "        'poverty_rate',\n"
-    "    )\n"
-    "    .merge(clean_bps(\n"
-    "        RAW_DIR + 'Tingkat_Pengangguran_Terbuka_Menurut_Kabupaten_Kota_2025.csv',\n"
-    "        'unemployment_rate',\n"
-    "    ), on='region')\n"
-    "    .merge(clean_bps(\n"
-    "        RAW_DIR + 'Garis_Kemiskinan_Menurut_Kabupaten_Kota_2025.csv',\n"
-    "        'poverty_level',\n"
-    "    ), on='region')\n"
+    "    poverty_clean\n"
+    "    .merge(unemployment_clean, on='region')\n"
+    "    .merge(poverty_level_clean, on='region')\n"
     ")\n\n"
     "jabar_raw.to_csv(CLEAN_DIR + 'jabar_2025_combined.csv', index=False, encoding='utf-8')\n"
-    "print(jabar_raw.to_string(index=False))"
+    "jabar_raw"
 ))
 
 # ---------------------------------------------------------------------------
@@ -177,10 +226,19 @@ cells.append(code(
 # ---------------------------------------------------------------------------
 cells.append(section("Transformasi Data", "4"))
 cells.append(md(
-    "Nama wilayah dinormalisasi dengan menghapus spasi agar sesuai dengan format `NAME_2` "
-    "pada GeoJSON GADM. Kolom `type` ditambahkan untuk membedakan Kota dan Kabupaten. "
-    "Tiga wilayah memerlukan pemetaan manual karena GADM tidak menyertakan prefiks *Kota* "
-    "pada namanya: Cimahi, Depok, dan Banjar."
+    "Bagian ini menambahkan kolom turunan yang dipakai oleh visualisasi: `type`, `gadm_name`, "
+    "`ratio`, kelompok anomali, dan peringkat. Output ditampilkan bertahap agar sesuai dengan "
+    "penomoran Bagian 2 pada dokumen."
+))
+cells.append(md(
+    "## Bagian 2.2.3 dan 2.4.3 - Pemeriksaan GADM dan Key Penggabungan\n\n"
+    "Cell pertama menampilkan contoh atribut `NAME_1`, `NAME_2`, dan `TYPE_2` dari GADM. "
+    "Cell kedua menampilkan penyesuaian key wilayah dari data BPS ke `gadm_name`."
+))
+cells.append(code(
+    "gdf = gpd.read_file(GADM_PATH)\n"
+    "gdf_jabar_check = gdf[gdf['NAME_1'] == 'JawaBarat'].copy()\n"
+    "gdf_jabar_check[['NAME_1', 'NAME_2', 'TYPE_2']].drop_duplicates().head(12)"
 ))
 cells.append(code(
     "ppo_jawa = pd.read_csv(CLEAN_DIR + 'ppo_jawa_2021-2025.csv')\n"
@@ -191,7 +249,24 @@ cells.append(code(
     ")\n\n"
     "GADM_FIX = {'Bandung Barat': 'BandungBarat'}\n"
     "jabar['gadm_name'] = jabar['region'].map(GADM_FIX).fillna(jabar['region'])\n\n"
+    "jabar[['region', 'type', 'gadm_name']].head(12)"
+))
+cells.append(md(
+    "## Bagian 2.5.3 - Penambahan Kolom Turunan\n\n"
+    "`ratio` dihitung dari `poverty_rate / unemployment_rate` untuk mengidentifikasi wilayah "
+    "dengan pola kemiskinan relatif tinggi terhadap pengangguran."
+))
+cells.append(code(
     "jabar['ratio'] = jabar['poverty_rate'] / jabar['unemployment_rate']\n"
+    "jabar[['region', 'type', 'gadm_name', 'poverty_rate',\n"
+    "       'unemployment_rate', 'poverty_level', 'ratio']]"
+))
+cells.append(md(
+    "## Bagian 2.5.4 - Penentuan Wilayah Anomali\n\n"
+    "Tiga rasio tertinggi dipilih setelah mengecualikan Majalengka, dan tiga rasio terendah "
+    "dipilih sebagai pembanding."
+))
+cells.append(code(
     "ANOMALI_HIGH = (\n"
     "    jabar.nlargest(4, 'ratio')\n"
     "    .query(\"region != 'Majalengka'\")\n"
@@ -199,10 +274,35 @@ cells.append(code(
     ")\n"
     "ANOMALI_LOW  = jabar.nsmallest(3, 'ratio')['region'].tolist()\n"
     "ANOMALI_ALL  = ANOMALI_HIGH + ANOMALI_LOW\n\n"
-    "print('Rasio tinggi:', ANOMALI_HIGH)\n"
-    "print('Rasio rendah:', ANOMALI_LOW)\n"
-    "print(jabar[['region', 'type', 'gadm_name', 'poverty_rate',\n"
-    "             'unemployment_rate', 'poverty_level', 'ratio']].to_string(index=False))"
+    "anomali_table = jabar[jabar['region'].isin(ANOMALI_ALL)].copy()\n"
+    "anomali_table['kelompok'] = np.where(\n"
+    "    anomali_table['region'].isin(ANOMALI_HIGH), 'Tinggi', 'Rendah'\n"
+    ")\n"
+    "anomali_table[['region', 'unemployment_rate', 'poverty_rate',\n"
+    "               'poverty_level', 'ratio', 'kelompok']].sort_values(\n"
+    "    ['kelompok', 'ratio'], ascending=[False, False]\n"
+    ")"
+))
+cells.append(md(
+    "## Bagian 2.5.5 - Penghitungan Peringkat\n\n"
+    "Peringkat TPT dan garis kemiskinan dihitung untuk seluruh wilayah, lalu ditampilkan untuk "
+    "enam wilayah anomali."
+))
+cells.append(code(
+    "jabar['tpt_rank'] = jabar['unemployment_rate'].rank(method='min').astype(int)\n"
+    "jabar['gk_rank']  = jabar['poverty_level'].rank(method='min').astype(int)\n\n"
+    "anomali = jabar[jabar['region'].isin(ANOMALI_ALL)].copy()\n"
+    "anomali[['region', 'tpt_rank', 'gk_rank', 'unemployment_rate',\n"
+    "         'poverty_level']].sort_values('tpt_rank')"
+))
+cells.append(md(
+    "## Bagian 2.6.1 - Konsolidasi File Bersih\n\n"
+    "Cell berikut mengonfirmasi file hasil pembersihan dan transformasi yang tersedia di `data/clean/`."
+))
+cells.append(code(
+    "pd.DataFrame({\n"
+    "    'file': sorted(os.listdir(CLEAN_DIR))\n"
+    "})"
 ))
 
 # ---------------------------------------------------------------------------
@@ -276,7 +376,7 @@ cells.append(md(
 ))
 cells.append(code(
     "from matplotlib.colors import LinearSegmentedColormap\n\n"
-    "gdf = gpd.read_file(CLEAN_DIR + 'gadm41_IDN_2.json')\n"
+    "gdf = gpd.read_file(GADM_PATH)\n"
     "gdf_jabar = gdf[gdf['NAME_1'] == 'JawaBarat'].copy()\n\n"
     "gdf_jabar = gdf_jabar.merge(\n"
     "    jabar[['gadm_name', 'region', 'type', 'poverty_rate']],\n"
