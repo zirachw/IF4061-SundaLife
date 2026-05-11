@@ -493,7 +493,6 @@ cells.append(code(
     "# color ytick labels to match bars\n"
     "for lbl, region in zip(ax.get_yticklabels(), anomali['region']):\n"
     "    lbl.set_color(C_HIGH if region in ANOMALI_HIGH else C_LOW)\n\n"
-    "ax.set_xlabel('Garis Kemiskinan (RUPIAH/KAPITA/BULAN)', fontsize=8, color='#555555', labelpad=8)\n"
     "ax.set_xlim(0, anomali['poverty_level'].max() * 1.15)\n\n"
     "ax.tick_params(axis='x', length=0)\n"
     "ax.tick_params(axis='y', length=0)\n"
